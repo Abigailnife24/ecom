@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/images/favicon-32x32.png"
+    />
+    <link rel="stylesheet" href="./style.css" />
+
+    <title>Product list with cart</title>
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Desserts</h1>
+      <div class="products">
+        <div class="product">
+          <div class="img-wrap">
+            <picture>
+              <source
+                media="(max-width : 768px) and (min-width : 541px)"
+                srcset="./assets/images/image-waffle-tablet.jpg"
+              />
+              <source
+                media="(max-width : 540px)"
+                srcset="./assets/images/image-waffle-mobile.jpg"
+              />
+
+              <img
+                src="./assets/images/image-waffle-desktop.jpg"
+                alt="Waffle"
+              />
+            </picture>
+            <button>
+              <img
+                src="./assets/images/icon-add-to-cart.svg"
+                alt="add to cart"
+              />
+              Add to Cart
+            </button>
+          </div>
+
+          <div class="product-content-wrap">
+            <h6 class="product-category">Waffle</h6>
+            <div class="product-title">Waffle with Berries</div>
+            <div class="product-price">$ 6.50</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+<!-- Vanilla Bean Crème Brûlée Crème
+       Brûlée 7.00 Add to Cart Macaron Mix of Five Macaron 8.00 Add to Cart Classic
+       Tiramisu Tiramisu 5.50 Add to Cart Pistachio Baklava Baklava 4.00 Add to
+       Cart Lemon Meringue Pie Pie 5.00 Add to Cart Red Velvet Cake Cake 4.50 Add
+       to Cart Salted Caramel Brownie Brownie 4.50 Add to Cart Vanilla Panna Cotta
+       Panna Cotta 6.50 
+       Add to Cart Your Cart ( Quantity ) Your added items
+       will appear here -->
