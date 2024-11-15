@@ -1,144 +1,194 @@
+import productData from "./data.json" with {type : "json"};
+
 const product = document.querySelector(".product");
-
 const products = document.querySelector(".products");
+const cart = document.getElementById("cart");
 
-const productData = [
-  {
-    image: {
-      thumbnail: "./assets/images/image-waffle-thumbnail.jpg",
-      mobile: "./assets/images/image-waffle-mobile.jpg",
-      tablet: "./assets/images/image-waffle-tablet.jpg",
-      desktop: "./assets/images/image-waffle-desktop.jpg",
-    },
-    name: "Waffle with Berries",
-    category: "Waffle",
-    price: 6.5,
-  },
-  {
-    image: {
-      thumbnail: "./assets/images/image-creme-brulee-thumbnail.jpg",
-      mobile: "./assets/images/image-creme-brulee-mobile.jpg",
-      tablet: "./assets/images/image-creme-brulee-tablet.jpg",
-      desktop: "./assets/images/image-creme-brulee-desktop.jpg",
-    },
-    name: "Vanilla Bean Crème Brûlée",
-    category: "Crème Brûlée",
-    price: 7.0,
-  },
-  {
-    image: {
-      thumbnail: "./assets/images/image-macaron-thumbnail.jpg",
-      mobile: "./assets/images/image-macaron-mobile.jpg",
-      tablet: "./assets/images/image-macaron-tablet.jpg",
-      desktop: "./assets/images/image-macaron-desktop.jpg",
-    },
-    name: "Macaron Mix of Five",
-    category: "Macaron",
-    price: 8.0,
-  },
-  {
-    image: {
-      thumbnail: "./assets/images/image-tiramisu-thumbnail.jpg",
-      mobile: "./assets/images/image-tiramisu-mobile.jpg",
-      tablet: "./assets/images/image-tiramisu-tablet.jpg",
-      desktop: "./assets/images/image-tiramisu-desktop.jpg",
-    },
-    name: "Classic Tiramisu",
-    category: "Tiramisu",
-    price: 5.5,
-  },
-  {
-    image: {
-      thumbnail: "./assets/images/image-baklava-thumbnail.jpg",
-      mobile: "./assets/images/image-baklava-mobile.jpg",
-      tablet: "./assets/images/image-baklava-tablet.jpg",
-      desktop: "./assets/images/image-baklava-desktop.jpg",
-    },
-    name: "Pistachio Baklava",
-    category: "Baklava",
-    price: 4.0,
-  },
-  {
-    image: {
-      thumbnail: "./assets/images/image-meringue-thumbnail.jpg",
-      mobile: "./assets/images/image-meringue-mobile.jpg",
-      tablet: "./assets/images/image-meringue-tablet.jpg",
-      desktop: "./assets/images/image-meringue-desktop.jpg",
-    },
-    name: "Lemon Meringue Pie",
-    category: "Pie",
-    price: 5.0,
-  },
-  {
-    image: {
-      thumbnail: "./assets/images/image-cake-thumbnail.jpg",
-      mobile: "./assets/images/image-cake-mobile.jpg",
-      tablet: "./assets/images/image-cake-tablet.jpg",
-      desktop: "./assets/images/image-cake-desktop.jpg",
-    },
-    name: "Red Velvet Cake",
-    category: "Cake",
-    price: 4.5,
-  },
-  {
-    image: {
-      thumbnail: "./assets/images/image-brownie-thumbnail.jpg",
-      mobile: "./assets/images/image-brownie-mobile.jpg",
-      tablet: "./assets/images/image-brownie-tablet.jpg",
-      desktop: "./assets/images/image-brownie-desktop.jpg",
-    },
-    name: "Salted Caramel Brownie",
-    category: "Brownie",
-    price: 4.5,
-  },
-  {
-    image: {
-      thumbnail: "./assets/images/image-panna-cotta-thumbnail.jpg",
-      mobile: "./assets/images/image-panna-cotta-mobile.jpg",
-      tablet: "./assets/images/image-panna-cotta-tablet.jpg",
-      desktop: "./assets/images/image-panna-cotta-desktop.jpg",
-    },
-    name: "Vanilla Panna Cotta",
-    category: "Panna Cotta",
-    price: 6.5,
-  },
-  {
-    image: {
-      thumbnail:
-        "https://images.unsplash.com/photo-1725795351238-67b95f3ace3d?q=80&w=3600&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      mobile:
-        "https://images.unsplash.com/photo-1725795351238-67b95f3ace3d?q=80&w=3600&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      tablet:
-        "https://images.unsplash.com/photo-1725795351238-67b95f3ace3d?q=80&w=3600&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      desktop:
-        "https://images.unsplash.com/photo-1725795351238-67b95f3ace3d?q=80&w=3600&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    name: "New Product",
-    category: "New",
-    price: 1222233.5,
-  },
-];
+let productList = localStorage.getItem("products")
+  ? JSON.parse(localStorage.getItem("products"))
+  : [];
+productList = productList.map((item) =>
+  item
+    ? {
+        ...item,
+        computeTotal: function () {
+          this.total = this.quantity * this.price;
+        },
+      }
+    : item
+);
 
-function showProduct(item) {
-  const clonedProduct = product.cloneNode(true); // deep clone should receive a true argument
-  console.log(clonedProduct.children[1].children);
-  const clonedSource0 = clonedProduct.children[0].children[0].children[0];
+if (productList.length > 0) {
+  cart.removeAttribute("hidden");
+  cart.children[1].innerHTML = "";
 
-  const clonedSource1 = clonedProduct.children[0].children[0].children[1];
-  const clonedImg = clonedProduct.children[0].children[0].children[2];
-  clonedImg.src = item.image.desktop;
-  clonedSource1.setAttribute("srcset", item.image.mobile);
-  clonedSource0.setAttribute("srcset", item.image.tablet);
+  productList.forEach((product, index, arr) => {
+    console.log(product);
+    let template = `
+            <li id="dummy-item">
+              <h3 class="cart-product-title">${product.title}</h3>
+              <div class="cart-stats">
+                <div><span>${product.quantity}x</span><span>@${product.total}</span><span>${product.price}</span></div>
+                <div><button data-title='${product.title}' class="cancel-cart">x</button></div>
+              </div>
+            </li>
+          `;
 
-  const clonedCategory = clonedProduct.children[1].children[0];
-  const clonedTitle = clonedProduct.children[1].children[1];
-  const clonedPrice = clonedProduct.children[1].children[2];
+    cart.children[1].innerHTML = cart.children[1].innerHTML + template;
 
-  clonedCategory.textContent = item.category;
-  clonedTitle.textContent = item.name;
-  clonedPrice.textContent = "$ " + item.price;
-  products.appendChild(clonedProduct);
+    if (arr.length - 1 === index) {
+      document
+        .querySelectorAll(".cancel-cart")
+        .forEach((item) => item.addEventListener("click", handleCancel));
+    }
+  });
+
+  document.querySelector(".cart-empty").setAttribute("hidden", "hidden");
 }
 
-productData.shift(); // remove the first member
+function addToCart(event) {
+  console.log(event.currentTarget.dataset);
+
+  const { title } = event.currentTarget.dataset;
+  const [filteredProduct] = productData.filter((item) => item.name === title);
+  console.log({ filteredProduct });
+  const productItem = {
+    ...filteredProduct,
+    title: filteredProduct.name,
+    quantity: 1,
+    computeTotal: function () {
+      this.total = this.quantity * this.price;
+    },
+    total: filteredProduct.price,
+  };
+
+  cart.removeAttribute("hidden");
+
+  if (productList.length === 0) {
+    productList.push(productItem);
+  } else if (productList.filter((item) => item.title === title).length === 0) {
+    productList.push(productItem);
+  } else if (productList.filter((item) => item.title === title).length > 0) {
+    // check if the item is an existing product  and update it
+    productList = productList.map((item) => {
+      if (item.title === title) {
+        item.quantity = item.quantity + 1;
+        item.computeTotal();
+      }
+      return item;
+    });
+  }
+
+  localStorage.setItem("products", JSON.stringify(productList));
+  console.log({ productList });
+
+  cart.children[1].innerHTML = "";
+
+  productList.forEach((product, index, arr) => {
+    let template = `
+            <li id="dummy-item">
+              <h3 class="cart-product-title">${product.title}</h3>
+              <div class="cart-stats">
+                <div><span>${product.quantity}x</span><span>@${product.total}</span><span>${product.price}</span></div>
+                <div><button data-title='${product.title}' class="cancel-cart">x</button></div>
+              </div>
+            </li>
+          `;
+
+    cart.children[1].innerHTML = cart.children[1].innerHTML + template;
+    if (arr.length - 1 === index) {
+      document
+        .querySelectorAll(".cancel-cart")
+        .forEach((item) => item.addEventListener("click", handleCancel));
+    }
+  });
+
+  document.querySelector(".cart-empty").setAttribute("hidden", "hidden");
+}
+
+function showProduct(item, index, arr) {
+  console.log(item);
+  let productTemplate = `
+          <div class="product">
+            <div class="img-wrap">
+              <picture>
+                <source
+                  media="(max-width : 768px) and (min-width : 541px)"
+                  srcset=${item.image.tablet}
+                />
+                <source
+                  media="(max-width : 540px)"
+                  srcset=${item.image.mobile}
+                />
+
+                <img
+                  src=${item.image.desktop}
+                  alt="Waffle"
+                />
+              </picture>
+              <button data-title='${item.name}' class="add-to-cart">
+                <img
+                  src=${"./assets/images/icon-add-to-cart.svg"}
+                  alt="add to cart"
+                />
+                Add to Cart
+              </button>
+            </div>
+            <div class="product-content-wrap">
+              <h6 class="product-category">${item.category}</h6>
+              <div class="product-title">${item.name}</div>
+              <div class="product-price">$${item.price}</div>
+            </div>
+          </div>
+  `;
+
+  products.innerHTML = products.innerHTML + productTemplate;
+
+  if (arr.length - 1 === index) {
+    document
+      .querySelectorAll(".add-to-cart")
+      .forEach((item) => item.addEventListener("click", addToCart));
+  }
+}
+
 productData.forEach(showProduct);
+
+function handleCancel(event) {
+  console.log("working");
+
+  const { title } = event.currentTarget.dataset;
+  productList = productList.filter(item => item.quantity > 0).map((item) => {
+    if (item.title === title) {
+      item.quantity = item.quantity - 1;
+      item.computeTotal();
+    }
+    return item;
+  });
+
+ console.log({ productList });
+  localStorage.setItem("products", JSON.stringify(productList.filter(item => item.quantity > 0)));
+ 
+
+  cart.children[1].innerHTML = "";
+
+  productList.filter(item => item.quantity > 0).forEach((product, index, arr) => {
+    let template = `
+            <li id="dummy-item">
+              <h3 class="cart-product-title">${product.title}</h3>
+              <div class="cart-stats">
+                <div><span>${product.quantity}x</span><span>@${product.total}</span><span>${product.price}</span></div>
+                <div><button data-title='${product.title}' class="cancel-cart">x</button></div>
+              </div>
+            </li>
+          `;
+
+    cart.children[1].innerHTML = cart.children[1].innerHTML + template;
+    if (arr.length - 1 === index) {
+      document
+        .querySelectorAll(".cancel-cart")
+        .forEach((item) => item.addEventListener("click", handleCancel));
+    }
+  });
+
+  if (cart.children[1].innerHTML === ""){ document.querySelector(".cart-empty").removeAttribute("hidden"); cart.setAttribute("hidden", "hidden"); productList = [] }
+}

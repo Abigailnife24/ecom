@@ -14,43 +14,25 @@
     <link rel="stylesheet" href="./style.css" />
 
     <title>Product list with cart</title>
-    <script src="./app.js" defer></script>
+    <script src="./data.json" defer type="module"></script>
+    <script src="./app.js" defer type="module"></script>
   </head>
   <body>
     <div class="container">
       <h1>Desserts</h1>
-      <div class="products">
-        <div class="product">
-          <div class="img-wrap">
-            <picture>
-              <source
-                media="(max-width : 768px) and (min-width : 541px)"
-                srcset="./assets/images/image-waffle-tablet.jpg"
-              />
-              <source
-                media="(max-width : 540px)"
-                srcset="./assets/images/image-waffle-mobile.jpg"
-              />
+      <div class="products-wrapper">
+        <div class="products"></div>
+        <div class="cart" id="cart" hidden>
+          <h2 class="cart-title">Your Cart</h2>
+          <ul id="cart-list"></ul>
+        </div>
 
-              <img
-                src="./assets/images/image-waffle-desktop.jpg"
-                alt="Waffle"
-              />
-            </picture>
-            <button>
-              <img
-                src="./assets/images/icon-add-to-cart.svg"
-                alt="add to cart"
-              />
-              Add to Cart
-            </button>
-          </div>
-
-          <div class="product-content-wrap">
-            <h6 class="product-category">Waffle</h6>
-            <div class="product-title">Waffle with Berries</div>
-            <div class="product-price">$ 6.50</div>
-          </div>
+        <div class="cart-empty">
+          <h2 class="cart-title">Your Cart (0)</h2>
+          <img
+            src="./assets/images/illustration-empty-cart.svg"
+            alt="empty cart"
+          />
         </div>
       </div>
     </div>
